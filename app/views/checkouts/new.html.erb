@@ -1,0 +1,120 @@
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<br><br>
+<div class="col-lg-12">
+  <div class="row">
+    <div class="col-lg-6 col-lg-offset-3">
+      <div class="panel panel-default bootstrap-basic">
+        <div class="panel-heading">
+          <h3 class="panel-title">Enter Card Details</h3>
+        </div>
+        <div class="panel-body">
+          <%= simple_form_for @customer, url: {action: 'create'}, method: 'post' do |f| %>
+            <div class="form-group col-md-12 bg-primary mini-header">
+              <label class="control-label" for="billinginformation">guest information</label>
+            </div>
+            <div class="form-group col-md-6">
+              <%= f.input :first_name, class: "form-control" %>
+            </div>
+            <div class="form-group col-md-6">
+              <%= f.input :last_name, class: "form-control" %>
+            </div>
+            <div class="form-group col-md-6">
+              <%= f.input :address_1, class: "form-control" %>
+            </div>
+            <div class="form-group col-md-6">
+              <%= f.input :address_2, class: "form-control" %>
+            </div>
+            <div class="form-group col-md-6">
+              <%= f.input :city, class: "form-control" %>
+            </div>
+            <div class="form-group col-md-3">
+              <%= f.input :state, class: "form-control" %>
+            </div>
+            <div class="form-group col-md-3">
+              <%= f.input :zipcode, class: "form-control" %>
+            </div>
+            <div class="form-group col-md-6">
+              <%= f.input :email, class: "form-control" %>
+            </div>
+            <div class="form-group col-md-6">
+              <%= f.input :phone, class: "form-control" %>
+            </div>
+            <div class="form-group col-md-12 bg-primary mini-header">
+              <label class="control-label" for="billinginformation">card information</label>
+            </div>
+            <div class="card-wrapper"></div>
+            <div class="form-group col-sm-8">
+              <label for="credit-card-field">Card Number</label>
+              <div id="credit-card-field" class="cc"></div>
+            </div>
+            <div class="form-group col-sm-4">
+              <label for="security-code-field">CVV</label>
+              <div id="security-code-field"></div>
+            </div>
+            <div class="form-group col-xs-6">
+              <label for="expiration-field">Expiration</label>
+              <div id="expiration-field"></div>
+            </div>
+            <div class="form-group col-xs-6">
+              <label for="postal-code-field">Postal Code</label>
+              <div id="postal-code-field"></div>
+            </div>
+            <div class="form-group button-buffer">
+              <%= f.button :submit, "Book", class: "btn-primary" %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://js.braintreegateway.com/js/beta/braintree-hosted-fields-beta.16.min.js"></script>
+<script id="braintree-client-token" type="application/json"><%= @client_token %></script>
+
+<script>
+var clientToken = document.getElementById('braintree-client-token').innerHTML;
+
+braintree.setup(clientToken, 'custom', {
+  id: 'new_customer',
+  hostedFields: {
+    styles: {
+      'input': {
+        'font-family': 'sans-serif',
+        'font-size': '12pt',
+        'color': 'black'
+      },
+      'input:focus': {
+        'outline': 'none'
+      },
+      'input.invalid': {
+        'color': 'tomato'
+      },
+      'input.valid': {
+        'color': 'limegreen'
+      },
+      'input::placeholder': {
+        'color': 'lightgray'
+      }
+    },
+    number: {
+      selector: '#credit-card-field',
+      placeholder: '4111 1111 1111 1111'
+    },
+    cvv: {
+      selector: '#security-code-field',
+      placeholder: '123'
+    },
+    expirationDate: {
+      selector: '#expiration-field',
+      placeholder: 'MM/YYYY'
+    },
+    postalCode: {
+      selector: '#postal-code-field',
+      placeholder: '12345'
+    }
+  },
+});
+
+</script>
